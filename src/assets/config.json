@@ -1,0 +1,41 @@
+{
+  "CentralSystemServer": {
+    "protocol": "http",
+    "host": "95.111.244.231",
+    "port": 80,
+    "pollIntervalSecs": 10
+  },
+  "Authorization": {
+    "debug": false
+  },
+  "Asset": {
+    "maxImageKb": 800
+  },
+  "User": {
+    "maxPictureKb": 150,
+    "captchaSiteKey": "6Lcnbn8pAAAAABc4sAyX_0_Q4EfbfNf6-Idx_eqm"
+  },
+  "Tenant": {
+    "maxLogoKb": 150
+  },
+  "Company": {
+    "maxPictureKb": 150
+  },
+  "Site": {
+    "maxPictureKb": 800
+  },
+  "SiteArea": {
+    "maxPictureKb": 800
+  },
+  "Car": {
+    "url": ""
+  },
+
+  "Advanced": {
+    "debounceTimeNotifMillis": 50,
+    "debounceTimeSearchMillis": 500
+  },
+  "Debug": {
+    "enabled": true
+  }
+}
