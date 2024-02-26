@@ -2,7 +2,7 @@
   "CentralSystemServer": {
     "protocol": "https",
     "host": "api.watt-way.com",
-    "port": 80,
+    "port": 443,
     "pollIntervalSecs": 10
   },
   "Authorization": {
