@@ -1,7 +1,7 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "95.111.244.231",
+    "host": "https://api.watt-way.com",
     "port": 80,
     "pollIntervalSecs": 10
   },
