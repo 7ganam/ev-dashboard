@@ -2452,6 +2452,20 @@ export class CentralServerService {
       );
   }
 
+  public pullTariffsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<OCPIJobStatusesResponse>(
+      this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINT_PULL_TARIFFS, { id: ocpiEndpoint.id }), {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public checkLocationsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();

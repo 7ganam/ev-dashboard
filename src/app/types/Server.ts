@@ -630,6 +630,7 @@ export enum RESTServerRoute {
   REST_OCPI_ENDPOINT_CHECK_LOCATIONS = 'ocpi/endpoints/:id/locations/check',
   REST_OCPI_ENDPOINT_CHECK_SESSIONS = 'ocpi/endpoints/:id/sessions/check',
   REST_OCPI_ENDPOINT_PULL_CDRS = 'ocpi/endpoints/:id/cdrs/pull',
+  REST_OCPI_ENDPOINT_PULL_TARIFFS = 'ocpi/endpoints/:id/tariffs/pull',
   REST_OCPI_ENDPOINT_PULL_LOCATIONS = 'ocpi/endpoints/:id/locations/pull',
   REST_OCPI_ENDPOINT_PULL_SESSIONS = 'ocpi/endpoints/:id/sessions/pull',
   REST_OCPI_ENDPOINT_PULL_TOKENS = 'ocpi/endpoints/:id/tokens/pull',
