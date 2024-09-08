@@ -61,6 +61,15 @@ export interface OCPILastCpoPushStatus {
   chargeBoxIDsInFailure?: string[];
 }
 
+export interface OCPILastEmspPullTariffs {
+  lastUpdatedOn: Date;
+  partial: boolean;
+  successNbr: number;
+  failureNbr: number;
+  totalNbr: number;
+  tariffIDsInFailure?: string[];
+}
+
 export interface OCPIAvailableEndpoints {
   credentials: string;
   locations: string;
@@ -78,6 +87,7 @@ export enum OCPIButtonAction {
   CHECK_LOCATIONS = 'check_locations',
   CHECK_SESSIONS = 'check_sessions',
   PULL_CDRS = 'pull_cdrs',
+  PULL_TARIFFS = 'pull_tariffs',
   PULL_LOCATIONS = 'pull_locations',
   PULL_SESSIONS = 'pull_sessions',
   PULL_TOKENS = 'pull_tokens',
