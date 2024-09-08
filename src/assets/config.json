@@ -1,9 +1,9 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "95.111.244.231",
-    "port": 80,
-    "pollIntervalSecs": 10
+    "host": "localhost",
+    "port": 8081,
+		"pollIntervalSecs": 10
   },
   "Authorization": {
     "debug": false
@@ -12,14 +12,14 @@
     "maxImageKb": 800
   },
   "User": {
-    "maxPictureKb": 150,
-    "captchaSiteKey": "6Lcnbn8pAAAAABc4sAyX_0_Q4EfbfNf6-Idx_eqm"
+    "maxPictureKb": 500,
+    "captchaSiteKey": ""
   },
   "Tenant": {
-    "maxLogoKb": 150
-  },
+    "maxLogoKb": 500
+	},
   "Company": {
-    "maxPictureKb": 150
+    "maxPictureKb": 500
   },
   "Site": {
     "maxPictureKb": 800

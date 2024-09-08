@@ -36,6 +36,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private pushEVSEStatusesAction = new TableUploadAction(OCPIButtonAction.PUSH_EVSE_STATUSES, 'ocpi.push_evse_statuses').getActionDef();
   private pushTokensAction = new TableUploadAction(OCPIButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
   private getCdrsAction = new TableDownloadAction(OCPIButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
+  private getTariffsAction = new TableDownloadAction(OCPIButtonAction.PULL_TARIFFS, 'ocpi.pull_tariffs').getActionDef();
   private getLocationsAction = new TableDownloadAction(OCPIButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
   private getSessionsAction = new TableDownloadAction(OCPIButtonAction.PULL_SESSIONS, 'ocpi.pull_sessions').getActionDef();
   private checkCdrsAction = new TableDownloadAction(OCPIButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
@@ -247,6 +248,44 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         name: 'ocpiendpoints.last_patch_job_on',
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
+      // EMSP Pull Tariffs
+      {
+        id: 'lastEmspPullTariffs',
+        type: 'integer',
+        name: 'ocpiendpoints.total_tariffs',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailTotalFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullTariffs',
+        type: 'integer',
+        name: 'ocpiendpoints.succeeded',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailSuccessFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullTariffs',
+        type: 'integer',
+        name: 'ocpiendpoints.failed',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailFailureFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullTariffs.lastUpdatedOn',
+        type: 'date',
+        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        name: 'ocpiendpoints.last_patch_job_on',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
     ];
   }
 
@@ -281,6 +320,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
           this.pushTokensAction,
           this.getSessionsAction,
           this.getCdrsAction,
+          this.getTariffsAction,
         ]).getActionDef();
       }
       rowActions.push(syncActions);
@@ -298,6 +338,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         break;
       case OCPIButtonAction.PULL_CDRS:
         this.pullCdrsOcpiEndpoint(ocpiEndpoint);
+        break;
+      case OCPIButtonAction.PULL_TARIFFS:
+        this.pullTariffsOcpiEndPoint(ocpiEndpoint);
         break;
       case OCPIButtonAction.PULL_LOCATIONS:
         this.pullLocationsOcpiEndpoint(ocpiEndpoint);
@@ -632,6 +675,40 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
               default:
                 Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                   'ocpiendpoints.pull_cdrs_error');
+            }
+            // Reload data
+            this.refreshData().subscribe();
+          }
+        });
+      }
+    });
+  }
+
+  private pullTariffsOcpiEndPoint(ocpiendpoint: OCPIEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.pull_tariffs_title'),
+      this.translateService.instant('ocpiendpoints.pull_tariffs_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonAction.YES) {
+        this.centralServerService.pullTariffsOcpiEndpoint(ocpiendpoint).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showInfoMessage('ocpiendpoints.pull_tariffs_success', { success: response.success });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.pull_tariffs_error');
+            }
+            // Reload data
+            this.refreshData().subscribe();
+          },
+          error: (error) => {
+            switch (error.status) {
+              case HTTPError.CANNOT_ACQUIRE_LOCK:
+                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                  'ocpiendpoints.pull_tariffs_error');
             }
             // Reload data
             this.refreshData().subscribe();
